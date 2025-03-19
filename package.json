@@ -4,8 +4,9 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "start": "node app.ts", 
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/app.js", 
+    "build": "tsc",              
+    "dev": "ts-node app.ts"      
   },
   "keywords": [],
   "author": "",
