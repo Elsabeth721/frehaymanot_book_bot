@@ -18,7 +18,7 @@ export function startBot(supabase: SupabaseClient) {
         try {
             await ctx.reply('*Loading grades...* ⏳', { parse_mode: 'Markdown' });
 
-            const grades = await fetchGrades(supabase); 
+            const grades = await fetchGrades(supabase); // Pass supabase to fetchGrades
             console.log('Fetched grades:', grades);
 
             if (grades.length === 0) {
@@ -45,7 +45,7 @@ export function startBot(supabase: SupabaseClient) {
         try {
             await ctx.reply(`*Fetching subjects for grade ${grade}...* ⏳`, { parse_mode: 'Markdown' });
 
-            const subjects = await fetchSubjects(supabase, grade); 
+            const subjects = await fetchSubjects(supabase, grade); // Pass supabase to fetchSubjects
             console.log('Fetched subjects:', subjects);
 
             if (subjects.length === 0) {
@@ -112,7 +112,7 @@ export function startBot(supabase: SupabaseClient) {
             const filePath = data[0].file_path;
             console.log('Downloading file:', filePath);
 
-            await downloadFile(supabase, filePath, ctx); 
+            await downloadFile(supabase, filePath, ctx); // Pass supabase to downloadFile
         } catch (err) {
             console.error('Error downloading file:', err);
             await ctx.reply('An error occurred while downloading the file. Please try again later. ❌');
