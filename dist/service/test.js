@@ -14,34 +14,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const supabase_js_1 = require("@supabase/supabase-js");
 const dotenv_1 = __importDefault(require("dotenv"));
-// Load environment variables
 dotenv_1.default.config();
-// Initialize Supabase client
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 if (!supabaseUrl || !supabaseKey) {
     throw new Error('Supabase URL and Key are required. Check your .env file.');
 }
 const supabase = (0, supabase_js_1.createClient)(supabaseUrl, supabaseKey);
-// Function to fetch and log grades
 function fetchAndLogGrades() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { data, error } = yield supabase
                 .from('books')
                 .select('grade');
-            // Log potential errors
             if (error) {
                 console.error('Error fetching grades:', error);
                 return;
             }
             console.log('Fetched grades:', data);
-            // Check if data is empty
             if (!data || data.length === 0) {
                 console.warn('No grades found in the books table.');
                 return;
             }
-            // Extract unique grades
             const uniqueGrades = [...new Set(data.map((item) => item.grade))];
             console.log('Unique grades:', uniqueGrades);
         }
@@ -50,5 +44,4 @@ function fetchAndLogGrades() {
         }
     });
 }
-// Run the function
 fetchAndLogGrades();

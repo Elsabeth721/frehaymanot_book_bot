@@ -15,22 +15,19 @@ const supabaseService_1 = require("./supabaseService");
 const supabase_js_1 = require("@supabase/supabase-js");
 const supabase = (0, supabase_js_1.createClient)(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 const bot = new telegraf_1.Telegraf(process.env.BOT_TOKEN);
-// Welcome message and automatically show grades
 bot.start((ctx) => __awaiter(void 0, void 0, void 0, function* () {
     yield ctx.reply('*Welcome!* 🎉 Please wait while I fetch the available grades...', { parse_mode: 'Markdown' });
     yield showGrades(ctx);
 }));
-// Command to manually show grades
 bot.command('grade', (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     yield showGrades(ctx);
 }));
-// Function to show grades
 function showGrades(ctx) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield ctx.reply('*Loading grades...* ⏳', { parse_mode: 'Markdown' });
             const grades = yield (0, supabaseService_1.fetchGrades)();
-            console.log('Fetched grades:', grades); // Debug log
+            console.log('Fetched grades:', grades);
             if (grades.length === 0) {
                 yield ctx.reply('No grades found. 😕');
                 return;
@@ -48,14 +45,13 @@ function showGrades(ctx) {
         }
     });
 }
-// Handle grade selection
 bot.action(/grade_(.+)/, (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     const grade = ctx.match[1];
-    console.log('Selected grade:', grade); // Debug log
+    console.log('Selected grade:', grade);
     try {
         yield ctx.reply(`*Fetching subjects for grade ${grade}...* ⏳`, { parse_mode: 'Markdown' });
         const subjects = yield (0, supabaseService_1.fetchSubjects)(grade);
-        console.log('Fetched subjects:', subjects); // Debug log
+        console.log('Fetched subjects:', subjects);
         if (subjects.length === 0) {
             yield ctx.reply('No subjects found for this grade. 😕');
             return;
@@ -72,14 +68,13 @@ bot.action(/grade_(.+)/, (ctx) => __awaiter(void 0, void 0, void 0, function* ()
         yield ctx.reply('An error occurred while fetching subjects. Please try again later. ❌');
     }
 }));
-// Handle subject selection
 bot.action(/subject_(.+)/, (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     const subject = ctx.match[1];
-    console.log('Fetching books for subject:', subject); // Debug log
+    console.log('Fetching books for subject:', subject);
     try {
         yield ctx.reply(`*Fetching books for subject ${subject}...* ⏳`, { parse_mode: 'Markdown' });
         const books = yield (0, supabaseService_1.fetchBooks)(subject);
-        console.log('Fetched books:', books); // Debug log
+        console.log('Fetched books:', books);
         if (books.length === 0) {
             yield ctx.reply('No books found for this subject. 😕');
             return;
@@ -96,13 +91,11 @@ bot.action(/subject_(.+)/, (ctx) => __awaiter(void 0, void 0, void 0, function* 
         yield ctx.reply('An error occurred while fetching books. Please try again later. ❌');
     }
 }));
-// Handle book selection
 bot.action(/book_(.+)/, (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     const fileName = ctx.match[1];
-    console.log('Selected file name:', fileName); // Debug log
+    console.log('Selected file name:', fileName);
     try {
         yield ctx.reply('*Fetching the book...* ⏳', { parse_mode: 'Markdown' });
-        // Fetch the file path for the selected book
         const { data, error } = yield supabase
             .from('books')
             .select('file_path')
@@ -112,8 +105,7 @@ bot.action(/book_(.+)/, (ctx) => __awaiter(void 0, void 0, void 0, function* () 
             return;
         }
         const filePath = data[0].file_path;
-        console.log('Downloading file:', filePath); // Debug log
-        // Call the updated downloadFile function
+        console.log('Downloading file:', filePath);
         yield (0, supabaseService_1.downloadFile)(filePath, ctx);
     }
     catch (err) {
@@ -121,8 +113,7 @@ bot.action(/book_(.+)/, (ctx) => __awaiter(void 0, void 0, void 0, function* () 
         yield ctx.reply('An error occurred while downloading the file. Please try again later. ❌');
     }
 }));
-// Start the bot
 function startBot() {
     bot.launch();
-    console.log('Bot started successfully.'); // Debug log
+    console.log('Bot started successfully.');
 }

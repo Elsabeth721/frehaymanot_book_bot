@@ -1,10 +1,13 @@
 import { Telegraf } from 'telegraf';
 import { fetchGrades, fetchSubjects, fetchBooks, downloadFile } from './supabaseService';
 import { createClient } from '@supabase/supabase-js';
-const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
+import express from 'express'; 
 
+const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
 const bot = new Telegraf(process.env.BOT_TOKEN!);
 
+const app = express();
+const PORT = process.env.PORT || 3000;
 bot.start(async (ctx) => {
     await ctx.reply('*Welcome!* 🎉 Please wait while I fetch the available grades...', { parse_mode: 'Markdown' });
     await showGrades(ctx);

@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.ts",
   "scripts": {
-    "start": "node dist/app.js", 
-    "build": "tsc",              
-    "dev": "ts-node app.ts"      
+    "start": "node dist/app.js",
+    "build": "tsc",
+    "dev": "ts-node app.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,10 +15,12 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
     "dotenv": "^16.4.7",
+    "express": "^4.21.2",
     "stream": "^0.0.3",
     "telegraf": "^4.16.3"
   },
   "devDependencies": {
+    "@types/express": "^5.0.1",
     "@types/node": "^22.13.10",
     "typescript": "^5.8.2"
   }

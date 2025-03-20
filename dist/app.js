@@ -6,9 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const supabase_js_1 = require("@supabase/supabase-js");
 const dotenv_1 = __importDefault(require("dotenv"));
 const botService_1 = require("./service/botService");
-// Load environment variables
 dotenv_1.default.config();
-// Initialize Supabase client
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 if (!supabaseUrl || !supabaseKey) {

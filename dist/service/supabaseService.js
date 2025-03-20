@@ -24,7 +24,7 @@ const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = (0, supabase_js_1.createClient)(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 function fetchGrades() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Fetching grades...'); // Debug log
+        console.log('Fetching grades...');
         const { data, error } = yield supabase
             .from('books')
             .select('grade');
@@ -32,15 +32,14 @@ function fetchGrades() {
             console.error('Error fetching grades:', error);
             return [];
         }
-        // Clean up the grades by removing double quotes and trimming spaces
         const uniqueGrades = [...new Set(data.map((item) => item.grade.replace(/"/g, '').trim()))];
-        console.log('Unique grades:', uniqueGrades); // Debug log
+        console.log('Unique grades:', uniqueGrades);
         return uniqueGrades;
     });
 }
 function fetchSubjects(grade) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Fetching subjects for grade:', grade); // Debug log
+        console.log('Fetching subjects for grade:', grade);
         const { data, error } = yield supabase
             .from('books')
             .select('subject')
@@ -49,10 +48,9 @@ function fetchSubjects(grade) {
             console.error('Error fetching subjects:', error);
             throw error;
         }
-        console.log('Fetched subjects data:', data); // Debug log
-        // Extract unique subjects
+        console.log('Fetched subjects data:', data);
         const uniqueSubjects = [...new Set(data.map((item) => item.subject))];
-        console.log('Unique subjects:', uniqueSubjects); // Debug log
+        console.log('Unique subjects:', uniqueSubjects);
         return uniqueSubjects;
     });
 }
@@ -66,7 +64,7 @@ function fetchBooks(subject) {
             console.error('Error fetching books:', error);
             throw error;
         }
-        console.log('Fetched books data:', data); // Debug log
+        console.log('Fetched books data:', data);
         return data;
     });
 }
@@ -76,33 +74,28 @@ function downloadFile(filePath, ctx) {
         try {
             // Check if the file is cached
             if (fileCache.has(filePath)) {
-                console.log('Serving file from cache:', filePath); // Debug log
+                console.log('Serving file from cache:', filePath);
                 const cachedFile = fileCache.get(filePath);
                 ctx.replyWithDocument({ source: cachedFile, filename: filePath.split('/').pop() });
                 return;
             }
-            // Extract the relative path from the full URL
             const url = new URL(filePath);
             const fullPath = url.pathname.split('/storage/v1/object/public/')[1];
             if (!fullPath) {
                 throw new Error('Invalid file path. Could not extract relative path.');
             }
-            // Remove the bucket name from the path
             const relativePath = fullPath.split('/').slice(1).join('/');
-            console.log('Downloading file with relative path:', relativePath); // Debug log
-            // Use the correct bucket name: 'book'
+            console.log('Downloading file with relative path:', relativePath);
             const { data, error } = yield supabase.storage
-                .from('book') // Correct bucket name
+                .from('book')
                 .download(relativePath);
             if (error) {
                 console.error('Error downloading file:', error);
                 throw error;
             }
-            console.log('File downloaded successfully:', relativePath); // Debug log
-            // Cache the file
+            console.log('File downloaded successfully:', relativePath);
             const fileBuffer = Buffer.from(yield data.arrayBuffer());
             fileCache.set(filePath, fileBuffer);
-            // Send the file to the user
             ctx.replyWithDocument({ source: fileBuffer, filename: relativePath.split('/').pop() });
         }
         catch (err) {
