@@ -8,6 +8,7 @@ const bot = new Telegraf(process.env.BOT_TOKEN!);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 bot.start(async (ctx) => {
     await ctx.reply('*Welcome!* 🎉 Please wait while I fetch the available grades...', { parse_mode: 'Markdown' });
     await showGrades(ctx);
