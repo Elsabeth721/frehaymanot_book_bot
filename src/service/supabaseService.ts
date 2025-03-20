@@ -7,7 +7,7 @@ const supabaseKey = process.env.SUPABASE_KEY;
 
 const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
 
-export async function fetchGrades(): Promise<string[]> {
+export async function fetchGrades(supabase: unknown): Promise<string[]> {
     console.log('Fetching grades...'); 
     const { data, error } = await supabase
         .from('books')
@@ -23,7 +23,7 @@ export async function fetchGrades(): Promise<string[]> {
     return uniqueGrades;
 }
 
-export async function fetchSubjects(grade: string): Promise<string[]> {
+export async function fetchSubjects(supabase: unknown, grade: string): Promise<string[]> {
     console.log('Fetching subjects for grade:', grade); 
 
     const { data, error } = await supabase
@@ -43,7 +43,7 @@ export async function fetchSubjects(grade: string): Promise<string[]> {
     return uniqueSubjects;
 }
 
-export async function fetchBooks(subject: string): Promise<{ name: string; file_path: string }[]> {
+export async function fetchBooks(supabase: unknown, subject: string): Promise<{ name: string; file_path: string }[]> {
     const { data, error } = await supabase
         .from('books')
         .select('name, file_path')
@@ -60,7 +60,7 @@ export async function fetchBooks(subject: string): Promise<{ name: string; file_
 
 const fileCache = new Map();
 
-export async function downloadFile(filePath: string, ctx: any): Promise<void> {
+export async function downloadFile(supabase: unknown, filePath: string, ctx: any): Promise<void> {
     try {
         // Check if the file is cached
         if (fileCache.has(filePath)) {

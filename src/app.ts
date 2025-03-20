@@ -24,7 +24,7 @@ app.listen(PORT, () => {
 });
 
 try {
-    startBot();
+    startBot(supabase);
     console.log('Bot started successfully.');
 } catch (err) {
     console.error('Error starting bot:', err);
