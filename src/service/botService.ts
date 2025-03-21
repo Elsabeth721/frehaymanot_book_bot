@@ -6,7 +6,7 @@ export function startBot(supabase: SupabaseClient) {
     const bot = new Telegraf(process.env.BOT_TOKEN!);
 
     bot.start(async (ctx) => {
-        await ctx.reply('*Welcome!* 🎉 Please wait while I fetch the available grades...እንኳን ወደ በሰላም መጡ🎉🎉............እባክዎን ያሉትን የክፍል ዝርዝር እስክናቀርብ በትእግስት ይጠብቁን!!! ', { parse_mode: 'Markdown' });
+        await ctx.reply('እንኳን ወደ ፍሬ ሃይማኖት ሰንበት ት/ቤት መጽሐፍት በሰላም መጡ🎉🎉............እባክዎን ያሉትን የክፍል ዝርዝር እስክናቀርብ በትእግስት ይጠብቁን!!! ', { parse_mode: 'Markdown' });
         await showGrades(ctx);
     });
 
