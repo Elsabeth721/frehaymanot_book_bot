@@ -18,7 +18,7 @@
 
 ### Clone the Repository
 ```sh
-git clone https://github.com/yourusername/telegram-book-bot.git
+git clone https://github.com/Elsabeth721/telegram-book-bot.git
 cd telegram-book-bot
 ```
 
@@ -67,6 +67,8 @@ MIT License.
 Fork and improve the project!
 
 ## Contact
-For issues, reach out via Telegram or GitHub Issues.
+For issues, reach out via Email or GitHub Issues.
+```sh
+elsabethzeleke1000@gmail.com
 ```
 
